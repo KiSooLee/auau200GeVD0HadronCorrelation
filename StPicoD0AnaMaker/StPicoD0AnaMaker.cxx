@@ -199,7 +199,7 @@ Int_t StPicoD0AnaMaker::Make()
   StThreeVectorF pVtx(-999.,-999.,-999.);
   StPicoEvent *event = (StPicoEvent *)picoDst->event();
   float field = event->bField();
-  if(!(isGoodEvent()) || !event->isMinBias())//minBias trigger requires
+  if(!(isGoodEvent()))//minBias trigger requires
   {
     LOG_WARN << " Not Good Event! Skip! " << endm;
     return kStWarn;
@@ -469,10 +469,19 @@ int StPicoD0AnaMaker::isD0Pair(StKaonPion const* const kp) const
 bool StPicoD0AnaMaker::isGoodEvent()
 {
   StPicoEvent *event = (StPicoEvent *)picoDst->event();
-  return (event->triggerWord() & mycuts::triggerWord) &&
+  return isMBTrigger() &&
     fabs(event->primaryVertex().z()) < mycuts::vz &&
     fabs(event->primaryVertex().z() - event->vzVpd()) < mycuts::vzVpdVz;
   //  return event->triggerWord() & mycuts::triggerWord;
+}
+bool StPicoD0AnaMaker::isMBTrigger()
+{
+  StPicoEvent *event = (StPicoEvent *)picoDst->event();
+  return (event->isTrigger(450050) ||
+      event->isTrigger(450060)||
+      event->isTrigger(450005)||
+      event->isTrigger(450015)||
+      event->isTrigger(450025));
 }
 //-----------------------------------------------------------------------------
 bool StPicoD0AnaMaker::isGoodTrack(StPicoTrack const * const trk) const

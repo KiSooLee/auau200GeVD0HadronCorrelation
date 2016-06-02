@@ -74,6 +74,7 @@ class StPicoD0AnaMaker : public StMaker
     int isD0Pair(StKaonPion const*) const;
     int D0Reco(StThreeVectorF *);
     bool isGoodEvent();
+    bool isMBTrigger();
     bool  isGoodTrack(StPicoTrack const*) const;
     bool  isGoodHadron(StPicoTrack const*) const;
     bool  isGoodGlobalHadron(StPicoTrack const*) const;
